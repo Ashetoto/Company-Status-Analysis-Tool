@@ -1,0 +1,242 @@
+<!--
+	此示例下载自 https://echarts.apache.org/examples/zh/editor.html?c=radar-aqi
+-->
+<!DOCTYPE html>
+<html lang="zh-CN" style="height: 100%">
+<head>
+    <meta charset="utf-8">
+    <title>Data Display</title>
+</head>
+
+<body style="height: 100%; margin: 0">
+<div id="container1" style="height:100%"></div>
+
+
+<script type="text/javascript" src="https://fastly.jsdelivr.net/npm/echarts@5.3.3/dist/echarts.min.js"></script>
+<!-- Uncomment this line if you want to dataTool extension
+<script type="text/javascript" src="https://fastly.jsdelivr.net/npm/echarts@5.3.3/dist/extension/dataTool.min.js"></script>
+-->
+<!-- Uncomment this line if you want to use gl extension
+<script type="text/javascript" src="https://fastly.jsdelivr.net/npm/echarts-gl@2/dist/echarts-gl.min.js"></script>
+-->
+<!-- Uncomment this line if you want to echarts-stat extension
+<script type="text/javascript" src="https://fastly.jsdelivr.net/npm/echarts-stat@latest/dist/ecStat.min.js"></script>
+-->
+<!-- Uncomment this line if you want to use map
+<script type="text/javascript" src="https://fastly.jsdelivr.net/npm/echarts@4.9.0/map/js/china.js"></script>
+<script type="text/javascript" src="https://fastly.jsdelivr.net/npm/echarts@4.9.0/map/js/world.js"></script>
+-->
+<!-- Uncomment these two lines if you want to use bmap extension
+<script type="text/javascript" src="https://api.map.baidu.com/api?v=3.0&ak=YOUR_API_KEY"></script>
+<script type="text/javascript" src="https://fastly.jsdelivr.net/npm/echarts@5.3.3/dist/extension/bmap.min.js"></script>
+-->
+
+<script type="text/javascript">
+    var dom = document.getElementById('container1');
+    var myChart = echarts.init(dom, null, {
+        renderer: 'canvas',
+        useDirtyRect: false
+    });
+    var app = {};
+
+    var option;
+
+    // Schema:
+    // date,AQIindex,PM2.5,PM10,CO,NO2,SO2
+    const dataBJ = {{ data_show }};
+
+    const lineStyle = {
+        width: 1,
+        opacity: 0.5
+    };
+    option = {
+        backgroundColor: '#ffffff',
+        title: {
+            top: 50,
+            left: 'center',
+            text: '各指标评分雷达图',
+            textStyle: {
+                color: '#161627'
+            }
+        },
+        legend: {
+            bottom: 5,
+            data: '上市公司{{ code }}' ,
+            itemGap: 20,
+            textStyle: {
+                color: '#fff',
+                fontSize: 14
+            },
+            selectedMode: 'single'
+        },
+        radar: {
+            indicator: [
+                {name: '现金流分析', max: 100},
+                {name: '成长能力', max: 100},
+                {name: '杜邦分析', max: 100},
+                {name: '每股指标', max: 100},
+                {name: '偿债能力', max: 100},
+                {name: '盈利能力', max: 100},
+                {name: '经营能力', max: 100},
+                {name: '违规情况', max: 100},
+            ],
+            shape: 'circle',
+            splitNumber: 5,
+            axisName: {
+                color: 'rgb(38,38,166)'
+            },
+            splitLine: {
+                lineStyle: {
+                    color: [
+                        'rgba(38,38, 102, 0.1)',
+                        'rgba(38,38, 102, 0.2)',
+                        'rgba(38,38, 102, 0.4)',
+                        'rgba(38,38, 102, 0.6)',
+                        'rgba(38,38, 102, 0.8)',
+                        'rgba(38,38, 102, 1)'
+                    ].reverse()
+                }
+            },
+            splitArea: {
+                show: false
+            },
+            axisLine: {
+                lineStyle: {
+                    color: 'rgb(102,125,238)'
+                }
+            }
+        },
+        series: [
+            {
+                name: 'Shanghai',
+                type: 'radar',
+                lineStyle: lineStyle,
+                data: dataBJ,
+                symbol: 'none',
+                itemStyle: {
+                    color: '#96c2f4'
+                },
+                areaStyle: {
+                    opacity: 0.05
+                }
+            },
+        ]
+    };
+
+    if (option && typeof option === 'object') {
+        myChart.setOption(option);
+    }
+
+    window.addEventListener('resize', myChart.resize);
+</script>
+</body>
+
+<body style="height: 50%; top: 20%">
+  <div id="container2" style="height: 50%"></div>
+
+
+  <script type="text/javascript" src="https://fastly.jsdelivr.net/npm/echarts@5.3.3/dist/echarts.min.js"></script>
+
+
+  <script type="text/javascript">
+      var dom = document.getElementById('container2');
+      var myChart = echarts.init(dom, null, {
+          renderer: 'canvas',
+          useDirtyRect: false
+      });
+      var app = {};
+
+      var option;
+
+      option = {
+          title: {
+              left: 200,
+              text: '各指标评分折线图'
+          },
+          tooltip: {
+              trigger: 'axis'
+          },
+          legend: {
+              data: ['现金流分析', '成长能力', '杜邦分析', '每股指标', '偿债能力', '盈利能力', '经营能力', '违规情况']
+          },
+          grid: {
+              left: '10%',
+              right: '10%',
+              bottom: '3%',
+              containLabel: true
+          },
+          toolbox: {
+              feature: {
+                  saveAsImage: {}
+              }
+          },
+          xAxis: {
+              type: 'category',
+              boundaryGap: false,
+              data: ['2017Q1', '2017Q2', '2017Q3', '2017Q4', '2018Q1', '2018Q2', '2018Q3', '2018Q4', '2019Q1', '2019Q2', '2019Q3', '2019Q4', '2020Q1', '2020Q2', '2020Q3', '2020Q4', '2021Q1', '2021Q2', '2021Q3', '2021Q4']
+          },
+          yAxis: {
+              type: 'value'
+          },
+          series: [
+              {
+                  name: '现金流分析',
+                  type: 'line',
+                  {#smooth: true,#}
+                  data:{{ data_list[0] }}
+              },
+              {
+                  name: '成长能力',
+                  type: 'line',
+                  {#smooth: true,#}
+                  data: {{ data_list[1] }}
+              },
+              {
+                  name: '杜邦分析',
+                  type: 'line',
+                  {#smooth: true,#}
+                  data: {{ data_list[2] }}
+              },
+              {
+                  name: '每股指标',
+                  type: 'line',
+                  {#smooth: true,#}
+                  data: {{ data_list[3] }}
+              },
+              {
+                  name: '偿债能力',
+                  type: 'line',
+                  {#smooth: true,#}
+                  data: {{ data_list[4] }}
+              },
+              {
+                  name: '盈利能力',
+                  type: 'line',
+                  {#smooth: true,#}
+                  data: {{ data_list[5] }}
+              },
+              {
+                  name: '经营能力',
+                  type: 'line',
+                  {#smooth: true,#}
+                  data: {{ data_list[6] }}
+              },
+              {
+                  name: '违规情况',
+                  type: 'line',
+                  {#smooth: true,#}
+                  data: {{ data_list[7] }}
+              }
+          ]
+      };
+
+      if (option && typeof option === 'object') {
+          myChart.setOption(option);
+      }
+
+      window.addEventListener('resize', myChart.resize);
+  </script>
+</body>
+
+
+</html>
